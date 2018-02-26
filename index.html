@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<head>
+</head>
+<style type="text/css">
+	body {
+		margin: 0;
+	}
+	.app {
+		width: 60%;
+		margin: 0 auto;
+	}
+	.header {
+		text-align: center;
+		background: #0091ea;
+		color: #fff;
+		font-weight: bold;
+		padding: 15px;
+		font-size: 30px;
+	}
+	.form {
+		border: 5px solid #0091ea;
+		text-align: center;
+		padding-top: 30px;
+	}
+	#banner-load {
+		width: 33%;
+		margin: 0 auto;
+		margin-top: 35px;
+		border: 1px solid #40c4ff;
+		height: 200px;
+	}
+	button {
+		background: #00b0ff;
+		color: #fff;
+		box-shadow: none;
+		border: none;
+		padding: 4px;
+		border-radius: 5px;
+		outline: none;
+	}
+	img {
+		margin: 0 auto;
+		height: 200px;
+		width: 265px;
+	}
+	.blur {
+		-webkit-filter: blur(5px);
+		-moz-filter: blur(5px);
+		filter: blur(5px);
+	}
+	.progress-bar { height:20px; width:0; text-align:center; }
+</style>
+<body>
+	<div class="app">
+		<div class="header">Make Your Image</div>
+		<div class="form">
+			<input id="paint" type="text" required="">
+			<button id="createImage" onclick="paint();">Create Image</button>
+			<div id="banner-load"></div>
+			<div class="progress-bar"></div>
+			<div class="progress"></div>
+			<p id="showText"></p>	
+			<button style="margin-bottom: 10px" onclick="reload();">Create Another Image</button>
+		</div>
+
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script>
+	function reload() {
+		location.reload(true);
+	}
+
+		function paint() {
+			$('#createImage').attr('disabled', 'true').css('background', 'grey');
+		// loading image dynamically
+		var images = ['index1.jpeg', 'index2.jpeg', 'index3.jpeg', 'images4.jpeg'];
+		$('<img class="rand_img blur" src="images/' + images[Math.floor(Math.random() * images.length)] + '">').appendTo('#banner-load');
+		var paintText = $('#paint').val();
+		$('#showText').html("Creating image for "+" "+paintText);
+		var progress;
+		$('.progress-bar').animate(
+			{width:'100%'}, 
+			{
+				duration:12000,
+				step: function(now, fx) {
+					if(fx.prop == 'width') {
+						$('.progress').html(parseInt(Math.round(now * 100) / 100) + '%');
+						progress = Math.round(now * 100) / 100 + '%';
+						if(progress=='100%') {
+							$('.rand_img').removeClass('blur');
+						}
+					}
+				}
+			}        
+			);
+	}
+	
+
+</script>
+
+</body>
+</html>
